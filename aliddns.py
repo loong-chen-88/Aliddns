@@ -2,6 +2,7 @@
 # coding=utf-8
 
 import json
+from datetime import datetime
 from requests import get
 from aliyunsdkcore.client import AcsClient
 from aliyunsdkcore.acs_exception.exceptions import ClientException
@@ -10,10 +11,10 @@ from aliyunsdkalidns.request.v20150109.DescribeDomainRecordsRequest import Descr
 from aliyunsdkalidns.request.v20150109.AddDomainRecordRequest import AddDomainRecordRequest
 from aliyunsdkalidns.request.v20150109.UpdateDomainRecordRequest import UpdateDomainRecordRequest
 
-# 配置accessKeyId & accessSecret & RegionID(https://www.alibabacloud.com/help/zh/doc-detail/50086.htm)
+# 配置accessKeyId & accessSecret & RegionID
 AccessKeyID = "accessKeyId"
 AccessSecret = "accessSecret"
-RegionID = "cn-shenzhen" 
+RegionID = "cn-shenzhen"
 
 # 配置主域名
 MainDomain = "example.com"
@@ -24,12 +25,15 @@ SubDomains = "@"
 # 创建AcsClient实例
 client = AcsClient(AccessKeyID, AccessSecret, RegionID)
 
+# 获取当前时间
+current_time = datetime.now().isoformat(timespec='seconds')
+
 
 # 获取本地公网IP
 def LocalIP():
-    request = get("https://api.myip.la")
-    response = request.text if request.ok else print(
-        f"Getting failed: {request.text}")
+    request = get("https://api-ipv4.ip.sb/jsonip")
+    response = request.json().get("ip") if request.ok else print(
+        f"{current_time} Getting failed: {request.text}")
     return response
 
 
@@ -77,7 +81,7 @@ if __name__ == "__main__":
         for subdomain in SubDomains:
             AddRecords(MainDomain, subdomain, record_type, local_ip)
             print(
-                f"Add resolution record. {record_type} record {subdomain} Default {local_ip}")
+                f"{current_time} Add resolution record. {record_type} record {subdomain} Default {local_ip}")
     elif records.get("TotalCount") == 1:
         subdomain_record = records["DomainRecords"]["Record"][0]
         resolution_record = subdomain_record.get("RR")
@@ -86,8 +90,8 @@ if __name__ == "__main__":
 
         if remote_ip == local_ip:
             print(
-                f"The DNS record already exists！the current resolution record {remote_ip} is the same as the local public network IP")
+                f"{current_time} The DNS record already exists！the current resolution record {remote_ip} is the same as the local public network IP")
         else:
             UpdateRecords(record_id, resolution_record, record_type, local_ip)
             print(
-                f"Modify resolution record. {record_type} record {resolution_record} Default {remote_ip} changed to {record_type} record {resolution_record} Default {local_ip}")
+                f"{current_time} Modify resolution record. {record_type} record {resolution_record} Default {remote_ip} changed to {record_type} record {resolution_record} Default {local_ip}")
