@@ -1,0 +1,14 @@
+# 请求接口服务地址: https://help.aliyun.com/document_detail/116401.htm?spm=a2c4g.315448.0.0.3e0f15c6yu9WUE#task-2245479
+# AccessKey帮助文档: https://next.api.aliyun.com/product/Alidns
+# RegionEndpoint: "alidns.cn-shenzhen.aliyuncs.com"
+RegionEndpoint: ""
+# AccessKeyID: "Access Key ID"
+AccessKeyID: ""
+# AccessSecret: "Access Secret"
+AccessSecret: ""
+# DomainName: "example.com",域名
+DomainName: ""
+# RecordKeyword: "test",子域名
+RecordKeyword: ""
+# RecordType: "A",A记录或AAAA记录
+RecordType: ""
