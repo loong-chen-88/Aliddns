@@ -10,8 +10,9 @@ class ConfigError(Exception):
 
 class ConfigManager:
     def __init__(self):
-        self.config_path = os.path.join(os.getcwd(), 'config', 'config.yaml')
-        self.template_path = os.path.join(os.getcwd(), 'config', 'template.yaml')
+        self.file_path = os.path.dirname(os.path.dirname(__file__))
+        self.config_path = os.path.join(self.file_path, 'config', 'config.yaml')
+        self.template_path = os.path.join(self.file_path, 'config', 'template.yaml')
         self.config = self._load_config()
 
     def _load_config(self):
