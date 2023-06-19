@@ -48,9 +48,11 @@ class AliDNS:
             response = client.describe_domain_records_with_options(
                 request, runtime)
             results = response.to_map().get("body")
-            records = results.get("DomainRecords", {}).get(
-                "Record", []) if results.get("TotalCount", 0) > 0 else None
-            return records
+            if results.get("TotalCount", 0) > 0:
+                records = results.get("DomainRecords", {}).get("Record", [])
+                return records
+            else:
+                return None
         except Exception as e:
             raise AliDNSError(f"获取解析记录异常: {e}")
 

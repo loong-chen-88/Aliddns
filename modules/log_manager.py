@@ -22,7 +22,12 @@ class Logger:
         formatter = logging.Formatter(
             "%(asctime)s--%(levelname)s: %(message)s")
         file_handler = TimedRotatingFileHandler(
-            self.log_file, when="midnight", interval=1, backupCount=90, encoding="utf-8")
+            self.log_file,
+            when="midnight",
+            interval=1,
+            backupCount=90,
+            encoding="utf-8"
+        )
         file_handler.setFormatter(formatter)
         self.logger.addHandler(file_handler)
 
